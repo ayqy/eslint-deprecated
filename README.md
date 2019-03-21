@@ -57,18 +57,7 @@ $ npm install --save-dev eslint eslint-plugin-node
 
 | Rule ID | Description |    |
 |:--------|:------------|:--:|
-| [node/no-extraneous-import](./docs/rules/no-extraneous-import.md) | disallow `import` declarations of extraneous packages |  |
-| [node/no-extraneous-require](./docs/rules/no-extraneous-require.md) | disallow `require()` expressions of extraneous packages | ⭐️ |
-| [node/no-missing-import](./docs/rules/no-missing-import.md) | disallow `import` declarations of missing files |  |
-| [node/no-missing-require](./docs/rules/no-missing-require.md) | disallow `require()` expressions of missing files | ⭐️ |
-| [node/no-unpublished-bin](./docs/rules/no-unpublished-bin.md) | disallow 'bin' files which are ignored by npm | ⭐️ |
-| [node/no-unpublished-import](./docs/rules/no-unpublished-import.md) | disallow `import` declarations of private things |  |
-| [node/no-unpublished-require](./docs/rules/no-unpublished-require.md) | disallow `require()` expressions of private things | ⭐️ |
-| [node/no-unsupported-features/es-builtins](./docs/rules/no-unsupported-features/es-builtins.md) | disallow unsupported ECMAScript built-ins on the specified version | ⭐️ |
-| [node/no-unsupported-features/es-syntax](./docs/rules/no-unsupported-features/es-syntax.md) | disallow unsupported ECMAScript syntax on the specified version | ⭐️ |
-| [node/no-unsupported-features/node-builtins](./docs/rules/no-unsupported-features/node-builtins.md) | disallow unsupported Node.js built-in APIs on the specified version | ⭐️ |
-| [node/process-exit-as-throw](./docs/rules/process-exit-as-throw.md) | make `process.exit()` expressions the same code path as `throw` | ⭐️ |
-| [node/shebang](./docs/rules/shebang.md) | enforce the correct usage of shebang | ⭐️✒️ |
+
 
 ### Best Practices
 
@@ -80,14 +69,7 @@ $ npm install --save-dev eslint eslint-plugin-node
 
 | Rule ID | Description |    |
 |:--------|:------------|:--:|
-| [node/exports-style](./docs/rules/exports-style.md) | enforce either `module.exports` or `exports` |  |
-| [node/prefer-global/buffer](./docs/rules/prefer-global/buffer.md) | enforce either `Buffer` or `require("buffer").Buffer` |  |
-| [node/prefer-global/console](./docs/rules/prefer-global/console.md) | enforce either `console` or `require("console")` |  |
-| [node/prefer-global/process](./docs/rules/prefer-global/process.md) | enforce either `process` or `require("process")` |  |
-| [node/prefer-global/text-decoder](./docs/rules/prefer-global/text-decoder.md) | enforce either `TextDecoder` or `require("util").TextDecoder` |  |
-| [node/prefer-global/text-encoder](./docs/rules/prefer-global/text-encoder.md) | enforce either `TextEncoder` or `require("util").TextEncoder` |  |
-| [node/prefer-global/url-search-params](./docs/rules/prefer-global/url-search-params.md) | enforce either `URLSearchParams` or `require("url").URLSearchParams` |  |
-| [node/prefer-global/url](./docs/rules/prefer-global/url.md) | enforce either `URL` or `require("url").URL` |  |
+
 
 ### Deprecated rules
 
@@ -95,8 +77,7 @@ These rules have been deprecated in accordance with the [deprecation policy](htt
 
 | Rule ID | Replaced by |
 |:--------|:------------|
-| [node/no-hide-core-modules](./docs/rules/no-hide-core-modules.md) | (nothing) |
-| [node/no-unsupported-features](./docs/rules/no-unsupported-features.md) | [node/no-unsupported-features/es-syntax](./docs/rules/no-unsupported-features/es-syntax.md) and [node/no-unsupported-features/es-builtins](./docs/rules/no-unsupported-features/es-builtins.md) |
+
 
 <!--RULES_TABLE_END-->
 
