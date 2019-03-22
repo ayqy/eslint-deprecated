@@ -1,29 +1,28 @@
-# eslint-plugin-node
+# eslint-plugin-deprecated
 
-[![npm version](https://img.shields.io/npm/v/eslint-plugin-node.svg)](https://www.npmjs.com/package/eslint-plugin-node)
-[![Downloads/month](https://img.shields.io/npm/dm/eslint-plugin-node.svg)](http://www.npmtrends.com/eslint-plugin-node)
-[![Build Status](https://travis-ci.org/mysticatea/eslint-plugin-node.svg?branch=master)](https://travis-ci.org/mysticatea/eslint-plugin-node)
-[![Coverage Status](https://codecov.io/gh/mysticatea/eslint-plugin-node/branch/master/graph/badge.svg)](https://codecov.io/gh/mysticatea/eslint-plugin-node)
-[![Dependency Status](https://david-dm.org/mysticatea/eslint-plugin-node.svg)](https://david-dm.org/mysticatea/eslint-plugin-node)
+[![npm version](https://img.shields.io/npm/v/eslint-plugin-deprecated.svg)](https://www.npmjs.com/package/eslint-plugin-deprecated)
+[![Downloads/month](https://img.shields.io/npm/dm/eslint-plugin-deprecated.svg)](http://www.npmtrends.com/eslint-plugin-deprecated)
+[![Build Status](https://travis-ci.org/mysticatea/eslint-plugin-deprecated.svg?branch=master)](https://travis-ci.org/mysticatea/eslint-plugin-deprecated)
+[![Coverage Status](https://codecov.io/gh/mysticatea/eslint-plugin-deprecated/branch/master/graph/badge.svg)](https://codecov.io/gh/mysticatea/eslint-plugin-deprecated)
+[![Dependency Status](https://david-dm.org/mysticatea/eslint-plugin-deprecated.svg)](https://david-dm.org/mysticatea/eslint-plugin-deprecated)
 
-Additional ESLint's rules for Node.js
+ESLint ~~@deprecation~~ rules plugin, based on API blacklist.
 
 ## 💿 Install & Usage
 
 ```
-$ npm install --save-dev eslint eslint-plugin-node
+$ npm install --save-dev eslint eslint-plugin-deprecated
 ```
 
 - Requires Node.js `>=6.0.0`
-- Requires ESLint `>=4.19.1` (`plugin:node/recommended` preset requires `>=5.0.0`)
-
-**Note:** It recommends a use of [the "engines" field of package.json](https://docs.npmjs.com/files/package.json#engines). The "engines" field is used by `node/no-unsupported-features/*` rules.
 
 **.eslintrc.json** (An example)
 
 ```json
 {
-    "extends": ["eslint:recommended", "plugin:node/recommended"],
+    "plugins": [
+        "eslint-plugin-deprecated"
+    ],
     "rules": {
         "node/exports-style": ["error", "module.exports"],
         "node/prefer-global/buffer": ["error", "always"],
@@ -63,7 +62,7 @@ $ npm install --save-dev eslint eslint-plugin-node
 
 | Rule ID | Description |    |
 |:--------|:------------|:--:|
-| [node/no-deprecated-api](./docs/rules/no-deprecated-api.md) | disallow deprecated APIs | ⭐️ |
+| [no-deprecated-api](./docs/rules/no-deprecated-api.md) | disallow deprecated APIs | ⭐️ |
 
 ### Stylistic Issues
 
@@ -100,7 +99,7 @@ This preset config:
 
 ## 🚥 Semantic Versioning Policy
 
-`eslint-plugin-node` follows [semantic versioning](http://semver.org/) and [ESLint's Semantic Versioning Policy](https://github.com/eslint/eslint#semantic-versioning-policy).
+`eslint-plugin-deprecated` follows [semantic versioning](http://semver.org/) and [ESLint's Semantic Versioning Policy](https://github.com/eslint/eslint#semantic-versioning-policy).
 
 - Patch release (intended to not break your lint build)
     - A bug fix in a rule that results in it reporting fewer errors.
@@ -122,7 +121,7 @@ This preset config:
 
 ## 📰 Changelog
 
-- [GitHub Releases](https://github.com/mysticatea/eslint-plugin-node/releases)
+- [GitHub Releases](https://github.com/ayqy/eslint-plugin-deprecated/releases)
 
 ## 💎 Contributing
 
