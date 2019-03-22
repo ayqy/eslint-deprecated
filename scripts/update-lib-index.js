@@ -19,12 +19,6 @@ module.exports = {
             .filter(rule => !rule.deprecated)
             .map(rule => `"${rule.name}": require("./rules/${rule.name}"),`)
             .join("\n        ")}
-
-        // Deprecated rules.
-        ${rules
-            .filter(rule => rule.deprecated)
-            .map(rule => `"${rule.name}": require("./rules/${rule.name}"),`)
-            .join("\n        ")}
     },
 }
 `

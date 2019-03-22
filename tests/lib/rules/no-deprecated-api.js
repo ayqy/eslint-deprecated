@@ -6,6 +6,22 @@
 
 const RuleTester = require("eslint/lib/testers/rule-tester")
 const rule = require("../../../lib/rules/no-deprecated-api")
+const merge = require('lodash').merge;
+const { modules, globals } = require('../../node-deprecated-api');
+
+function wrapOptions(options) {
+    return merge(
+        options,
+        {
+            options: [
+                {
+                    modules,
+                    globals
+                },
+            ],
+        }
+    )
+}
 
 const ruleTester = new RuleTester()
 ruleTester.run("no-deprecated-api", rule, {
@@ -71,111 +87,12 @@ ruleTester.run("no-deprecated-api", rule, {
             env: { node: true },
         },
 
-        // ignore options
-        {
-            code: "new (require('buffer').Buffer)()",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: ["new buffer.Buffer()"],
-                },
-            ],
-            env: { node: true },
-        },
-        {
-            code: "require('buffer').Buffer()",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: ["buffer.Buffer()"],
-                },
-            ],
-            env: { node: true },
-        },
-        {
-            code: "require('domain');",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: ["domain"],
-                },
-            ],
-            env: { node: true },
-        },
-        {
-            code: "require('events').EventEmitter.listenerCount;",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: ["events.EventEmitter.listenerCount"],
-                },
-            ],
-            env: { node: true },
-        },
-        {
-            code: "require('events').listenerCount;",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: ["events.listenerCount"],
-                },
-            ],
-            env: { node: true },
-        },
-        {
-            code: "new Buffer;",
-            options: [
-                {
-                    //
-                    ignoreGlobalItems: ["new Buffer()"],
-                },
-            ],
-            env: { node: true },
-        },
-        {
-            code: "Buffer();",
-            options: [
-                {
-                    //
-                    ignoreGlobalItems: ["Buffer()"],
-                },
-            ],
-            env: { node: true },
-        },
-        {
-            code: "Intl.v8BreakIterator;",
-            options: [
-                {
-                    //
-                    ignoreGlobalItems: ["Intl.v8BreakIterator"],
-                },
-            ],
-            env: { node: true },
-        },
-        {
-            code: "let {env: {NODE_REPL_HISTORY_FILE}} = process;",
-            options: [
-                {
-                    //
-                    ignoreGlobalItems: ["process.env.NODE_REPL_HISTORY_FILE"],
-                },
-            ],
-            env: { node: true, es6: true },
-        },
-
-        // https://github.com/mysticatea/eslint-plugin-node/issues/65
-        {
-            code: 'require("domain/")',
-            options: [{ ignoreIndirectDependencies: true }],
-            env: { node: true },
-        },
-
         // https://github.com/mysticatea/eslint-plugin-node/issues/87
         {
             code: 'let fs = fs || require("fs")',
             env: { node: true, es6: true },
         },
-    ],
+    ].map(wrapOptions),
     invalid: [
         //----------------------------------------------------------------------
         // Modules
@@ -714,35 +631,6 @@ ruleTester.run("no-deprecated-api", rule, {
             env: { es6: true },
         },
 
-        {
-            code: "new (require('buffer').Buffer)()",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: ["buffer.Buffer()"],
-                    ignoreGlobalItems: ["Buffer()", "new Buffer()"],
-                },
-            ],
-            errors: [
-                "'new buffer.Buffer()' was deprecated since v6.0.0. Use 'buffer.Buffer.alloc()' or 'buffer.Buffer.from()' instead.",
-            ],
-            env: { node: true },
-        },
-        {
-            code: "require('buffer').Buffer()",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: ["new buffer.Buffer()"],
-                    ignoreGlobalItems: ["Buffer()", "new Buffer()"],
-                },
-            ],
-            errors: [
-                "'buffer.Buffer()' was deprecated since v6.0.0. Use 'buffer.Buffer.alloc()' or 'buffer.Buffer.from()' instead.",
-            ],
-            env: { node: true },
-        },
-
         //----------------------------------------------------------------------
         // Global Variables
         //----------------------------------------------------------------------
@@ -813,40 +701,5 @@ ruleTester.run("no-deprecated-api", rule, {
             parserOptions: { sourceType: "module" },
             errors: ["'domain' module was deprecated since v4.0.0."],
         },
-
-        {
-            code: "new Buffer()",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: [
-                        "buffer.Buffer()",
-                        "new buffer.Buffer()",
-                    ],
-                    ignoreGlobalItems: ["Buffer()"],
-                },
-            ],
-            errors: [
-                "'new Buffer()' was deprecated since v6.0.0. Use 'Buffer.alloc()' or 'Buffer.from()' instead.",
-            ],
-            env: { node: true },
-        },
-        {
-            code: "Buffer()",
-            options: [
-                {
-                    //
-                    ignoreModuleItems: [
-                        "buffer.Buffer()",
-                        "new buffer.Buffer()",
-                    ],
-                    ignoreGlobalItems: ["new Buffer()"],
-                },
-            ],
-            errors: [
-                "'Buffer()' was deprecated since v6.0.0. Use 'Buffer.alloc()' or 'Buffer.from()' instead.",
-            ],
-            env: { node: true },
-        },
-    ],
+    ].map(wrapOptions),
 })

@@ -38,7 +38,7 @@ const rules = glob
         return Object.assign(
             {
                 filePath,
-                id: `node/${name}`,
+                id: name,
                 name,
                 deprecated: Boolean(meta.deprecated),
                 fixable: Boolean(meta.fixable),
