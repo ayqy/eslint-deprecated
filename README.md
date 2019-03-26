@@ -8,6 +8,8 @@
 
 ESLint ~~@deprecation~~ rules plugin, based on API blacklist.
 
+![](./features-overview.png)
+
 ## :sparkles: Features
 
 - [x] Modules and globals API options support. @v0.0.1
