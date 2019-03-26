@@ -50,9 +50,7 @@ const rules = glob
 
 /** @type {CategoryInfo[]} */
 const categories = [
-    "Possible Errors",
-    "Best Practices",
-    "Stylistic Issues",
+    "Best Practices"
 ].map(id => ({
     id,
     rules: rules.filter(rule => rule.category === id && !rule.deprecated),

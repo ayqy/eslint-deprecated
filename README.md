@@ -8,7 +8,13 @@
 
 ESLint ~~@deprecation~~ rules plugin, based on API blacklist.
 
-## 💿 Install & Usage
+## :sparkles: Features
+
+- [x] Modules and globals API options support. @v0.0.1
+- [x] MessageTemplate option supports. @v0.2.0
+- [ ] File level deprecation. @next-version
+
+## 💿 Installation
 
 ```
 $ npm install --save-dev eslint eslint-plugin-deprecated
@@ -16,23 +22,7 @@ $ npm install --save-dev eslint eslint-plugin-deprecated
 
 - Requires Node.js `>=6.0.0`
 
-**.eslintrc.json** (An example)
-
-```json
-{
-    "plugins": [
-        "eslint-plugin-deprecated"
-    ],
-    "rules": {
-        "node/exports-style": ["error", "module.exports"],
-        "node/prefer-global/buffer": ["error", "always"],
-        "node/prefer-global/console": ["error", "always"],
-        "node/prefer-global/process": ["error", "always"],
-        "node/prefer-global/url-search-params": ["error", "always"],
-        "node/prefer-global/url": ["error", "always"]
-    }
-}
-```
+## 🔧 Configs
 
 **package.json** (An example)
 
@@ -46,56 +36,146 @@ $ npm install --save-dev eslint eslint-plugin-deprecated
 }
 ```
 
+**.eslintrc.json** (An example)
+
+```json
+{
+  "plugins": [
+    "deprecated"
+  ],
+  "rules": {
+    "deprecated/no-deprecated-api": ["error", {
+      "modules": {},
+      "globals": {
+        "eval": {
+          "[CALL]": {
+            "replacedBy": "DO NOT use it.",
+            "since": "1.0.0"
+          }
+        },
+        "name": {
+          "[READ]": {
+            "replacedBy": "Use 'window.name' instead.",
+            "since": "1.2.0"
+          }
+        },
+        "Function": {
+          "[CONSSTRUCT]": {
+            "replacedBy": "DO NOT use it.",
+            "since": "1.0.3"
+          }
+        }
+      },
+      "messageTemplate": "{{name}} was DEPRECATED\n{{replace}}"
+    }]
+  }
+}
+```
+
+Examples of :-1: **incorrect** code for this rule:
+
+```js
+// example.js
+(function() {
+  name;
+})();
+eval('1 + 2');
+new Function('a', 'b', 'return a + b')(1, 2);
+```
+
+ESLint output：
+
+```
+path/to/example.js
+  2:3  error  'name' was DEPRECATED
+Use 'window.name' instead  deprecated/no-deprecated-api
+  4:1  error  'eval()' was DEPRECATED
+DO NOT use it            deprecated/no-deprecated-api
+  5:1  error  'new Function()' was DEPRECATED
+DO NOT use it    deprecated/no-deprecated-api
+```
+
 ## 📖 Rules
 
 - ⭐️ - the mark of recommended rules.
 - ✒️ - the mark of fixable rules.
 
 <!--RULES_TABLE_START-->
-### Possible Errors
-
-| Rule ID | Description |    |
-|:--------|:------------|:--:|
-
-
 ### Best Practices
 
 | Rule ID | Description |    |
 |:--------|:------------|:--:|
-| [no-deprecated-api](./docs/rules/no-deprecated-api.md) | disallow deprecated APIs | ⭐️ |
-
-### Stylistic Issues
-
-| Rule ID | Description |    |
-|:--------|:------------|:--:|
-
-
-### Deprecated rules
-
-These rules have been deprecated in accordance with the [deprecation policy](https://eslint.org/docs/user-guide/rule-deprecation), and replaced by newer rules:
-
-| Rule ID | Replaced by |
-|:--------|:------------|
-
+| no-deprecated-api | disallow deprecated APIs | ⭐️ |
 
 <!--RULES_TABLE_END-->
 
-## 🔧 Configs
+## 👫 Known Limitations
 
-This plugin provides `plugin:node/recommended` preset config.
-This preset config:
+This rule cannot report the following cases:
 
-- enables the environment of ES2015 (ES6) and Node.js.
-- enables rules which are given :star: in the above table.
-- enables [no-process-exit](http://eslint.org/docs/rules/no-process-exit) rule because [the official document](https://nodejs.org/api/process.html#process_process_exit_code) does not recommend a use of `process.exit()`.
-- adds `{ecmaVersion: 2019}` into `parserOptions`.
-- adds `Atomics` and `SharedArrayBuffer` into `globals`.
-- adds this plugin into `plugins`.
+### non-static properties
 
-## 👫 FAQ
+- async_hooks
+    - [asyncResource.triggerId](https://nodejs.org/dist/v8.2.0/docs/api/deprecations.html#deprecations_dep0072_async_hooks_asyncresource_triggerid)
+- buffer
+    - [buf.parent](https://nodejs.org/dist/v8.0.0/docs/api/buffer.html#buffer_buf_parent)
+- cluster
+    - [worker.suicide](https://nodejs.org/dist/v6.0.0/docs/api/cluster.html#cluster_worker_suicide)
+- crypto
+    - [ecdh.setPublicKey](https://nodejs.org/dist/v6.0.0/docs/api/crypto.html#crypto_ecdh_setpublickey_public_key_encoding)
+- http
+    - [res.writeHeader()](https://nodejs.org/dist/v8.0.0/docs/api/deprecations.html#deprecations_dep0063_serverresponse_prototype_writeheader)
+- net
+    - [server.connections](https://nodejs.org/dist/v0.10.0/docs/api/net.html#net_server_connections)
+- repl
+    - `replServer.convertToContext` (undocumented)
+    - [replServer.turnOffEditorMode](https://nodejs.org/dist/v9.0.0/docs/api/deprecations.html#deprecations_dep0078_replserver_turnoffeditormode)
+    - [replServer.memory](https://nodejs.org/dist/v9.0.0/docs/api/deprecations.html#deprecations_dep0082_replserver_prototype_memory)
 
-- Q: The `no-missing-import` / `no-missing-require` rules don't work with nested folders in SublimeLinter-eslint
-- A: See [context.getFilename() in rule returns relative path](https://github.com/roadhump/SublimeLinter-eslint#contextgetfilename-in-rule-returns-relative-path) in the SublimeLinter-eslint FAQ.
+### types of arguments
+
+- fs
+    - `fs.truncate()` and `fs.truncateSync()` usage with a file descriptor has been deprecated.
+- url
+    - `url.format()` with legacy `urlObject` has been deprecated.
+
+### dynamic things
+
+```js
+require(foo).aDeprecatedProperty;
+require("http")[A_DEPRECATED_PROPERTY]();
+```
+
+### assignments to properties
+
+```js
+var obj = {
+    Buffer: require("buffer").Buffer
+};
+new obj.Buffer(); /* missing. */
+```
+
+```js
+var obj = {};
+obj.Buffer = require("buffer").Buffer
+new obj.Buffer(); /* missing. */
+```
+
+### giving arguments
+
+```js
+(function(Buffer) {
+    new Buffer(); /* missing. */
+})(require("buffer").Buffer);
+```
+
+### reassignments
+
+```js
+var Buffer = require("buffer").Buffer;
+Buffer = require("another-buffer");
+new Buffer(); /*ERROR: 'buffer.Buffer' constructor was deprecated.*/
+```
 
 ## 🚥 Semantic Versioning Policy
 
