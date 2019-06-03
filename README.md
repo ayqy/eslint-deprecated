@@ -13,7 +13,8 @@ ESLint ~~@deprecation~~ rules plugin, based on API blacklist.
 ## :sparkles: Features
 
 - [x] Modules and globals API options support. @v0.0.1
-- [x] MessageTemplate option supports. @v0.2.0
+- [x] `MessageTemplate` option supports. @v0.2.0
+- [x] Specific `messageTemplates` option (`noReplacedBy`, `noSince` and `either`) supports. @v0.3.0 (**Breaking Change involved**: Do not support `MessageTemplate` option any more, use `messageTemplates` instead.)
 - [ ] File level deprecation. @next-version
 
 ## 💿 Installation
@@ -68,7 +69,12 @@ $ npm install --save-dev eslint eslint-plugin-deprecated
           }
         }
       },
-      "messageTemplate": "{{name}} was DEPRECATED\n{{replace}}"
+      "messageTemplate": {
+        "normal": "{{name}} was DEPRECATED since {{version}\n{{replace}}.",
+        "noReplacedBy": "{{name}} was DEPRECATED since {{version}\nNo plans to support.",
+        "noSince": "{{name}} was DEPRECATED\n{{replace}}.",
+        "neither": "{{name}} was DEPRECATED.",
+      }
     }]
   }
 }
