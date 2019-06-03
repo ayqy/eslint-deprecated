@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-deprecated",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "ESLint deprecation rules plugin, based on API blacklist.",
   "engines": {
     "node": ">=6"
